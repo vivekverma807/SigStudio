@@ -4,60 +4,401 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignaturePro - Professional Email Signature Generator</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📧</text></svg>">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">📧 SignaturePro</div>
-        <div class="nav-buttons" id="navButtons">
-            <button class="btn-login" onclick="openModal('loginModal')">Login</button>
-            <button class="btn-signup" onclick="openModal('signupModal')">Sign Up</button>
-        </div>
-        <div class="user-info" id="userInfo" style="display: none;">
-            <span class="user-email" id="userEmail"></span>
-            <button class="btn-logout" onclick="logout()">Logout</button>
+        <div class="nav-container">
+            <div class="logo" onclick="scrollToSection('home')">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>SignaturePro</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#templates" class="nav-link">Templates</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <!-- Login/Signup Buttons (Visible when logged out) -->
+                <div class="nav-buttons" id="navButtons">
+                    <button class="btn-login" onclick="openModal('loginModal')">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="btn-signup" onclick="openModal('signupModal')">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+                
+                <!-- Profile Dropdown (Visible when logged in) -->
+                <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+                    <div class="user-info" onclick="toggleDropdown()">
+                        <div class="user-avatar" id="userAvatar"></div>
+                        <span class="user-name" id="userDisplayName"></span>
+                    </div>
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <div class="dropdown-header">
+                            <div class="user-avatar" id="dropdownAvatar"></div>
+                            <h4 id="dropdownName"></h4>
+                            <p class="user-email" id="dropdownEmail"></p>
+                        </div>
+                        <div class="dropdown-item" onclick="openProfileSettings('profile')">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </div>
+                        <div class="dropdown-item" onclick="openProfileSettings('security')">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
+    <!-- Minimal Header for Builder (Initially hidden) -->
+    <div class="builder-header-minimal" id="builderHeaderMinimal" style="display: none;">
+        <div class="logo" onclick="backToHome()">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>SignaturePro</span>
+        </div>
+        <div class="profile-dropdown">
+            <div class="user-info" onclick="toggleMinimalDropdown()">
+                <div class="user-avatar" id="minimalAvatar"></div>
+            </div>
+            <div class="dropdown-content" id="minimalDropdownMenu">
+                <div class="dropdown-header">
+                    <div class="user-avatar" id="minimalDropdownAvatar"></div>
+                    <h4 id="minimalDropdownName"></h4>
+                    <p class="user-email" id="minimalDropdownEmail"></p>
+                </div>
+                <div class="dropdown-item" onclick="openProfileSettings('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="dropdown-item" onclick="openProfileSettings('security')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
-    <section class="hero" id="heroSection">
-        <h1>Create Professional Email Signatures in Minutes</h1>
-        <p>Stand out in every email with a stunning, customized signature</p>
-        <button class="btn-create" onclick="checkAuthAndCreate()">Create Your Signature</button>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Create Professional Email Signatures in Minutes</h1>
+                <p class="hero-subtitle">Stand out in every email with a stunning, customized signature that reflects your professional brand</p>
+                <div class="hero-buttons">
+                    <button class="btn-create" onclick="checkAuthAndCreate()">
+                        <i class="fas fa-magic"></i> Create Your Signature
+                    </button>
+                    <button class="btn-learn" onclick="scrollToSection('features')">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label">Happy Users</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-file-signature"></i>
+                        <span class="stat-number">50,000+</span>
+                        <span class="stat-label">Signatures Created</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-number">4.9/5</span>
+                        <span class="stat-label">User Rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-graphic">
+                <div class="floating-card card-1">
+                    <i class="fas fa-palette"></i>
+                    <span>Customize</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-download"></i>
+                    <span>Download</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Share</span>
+                </div>
+                <div class="hero-illustration">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features" id="featuresSection">
-        <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3>Customizable Design</h3>
-            <p>Choose from multiple templates and customize colors, fonts, and layouts to match your brand</p>
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>Powerful Features</h2>
+            <p>Everything you need to create the perfect email signature</p>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3>Instant Preview</h3>
-            <p>See your signature come to life in real-time as you make changes</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Customizable Design</h3>
+                <p>Choose from multiple templates and customize colors, fonts, and layouts to match your brand perfectly</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Instant Preview</h3>
+                <p>See your signature come to life in real-time as you make changes with our live preview feature</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Responsive</h3>
+                <p>Your signature looks perfect on all devices and email clients, ensuring consistent branding</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h3>Multiple Export Options</h3>
+                <p>Copy HTML, download as file, or export as image - whatever format you need</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure & Private</h3>
+                <p>Your data is protected with Firebase authentication and industry-standard encryption</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Free to Use</h3>
+                <p>Create unlimited professional signatures at no cost with all features included</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Image Export</h3>
+                <p>Download your signature as PNG or JPEG for use anywhere you need it</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-icons"></i>
+                </div>
+                <h3>Social Media Icons</h3>
+                <p>Add professional social media links with beautiful icons to boost your online presence</p>
+            </div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">📱</div>
-            <h3>Mobile Responsive</h3>
-            <p>Your signature looks perfect on all devices and email clients</p>
+    </section>
+
+    <!-- Templates Section -->
+    <section class="templates-section" id="templates">
+        <div class="section-header">
+            <h2>Beautiful Templates</h2>
+            <p>Choose from our professionally designed templates</p>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">💾</div>
-            <h3>Easy Export</h3>
-            <p>Copy to clipboard or download HTML code ready to use in your email</p>
+        <div class="templates-grid">
+            <div class="template-card">
+                <div class="template-preview template-modern">
+                    <div class="template-content">
+                        <div style="border-left: 4px solid #667eea; padding-left: 15px;">
+                            <div style="font-size: 1.2rem; font-weight: bold; color: #667eea;">John Doe</div>
+                            <div style="font-size: 0.9rem; color: #666;">Marketing Manager</div>
+                            <div style="font-size: 1rem; font-weight: 600; color: #333; margin-top: 8px;">Acme Corp</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Modern</h3>
+                <p>Clean and contemporary design</p>
+            </div>
+            <div class="template-card">
+                <div class="template-preview template-classic">
+                    <div class="template-content">
+                        <div style="text-align: center; border: 2px solid #667eea; padding: 15px;">
+                            <div style="font-size: 1.2rem; font-weight: bold; color: #667eea;">John Doe</div>
+                            <div style="font-size: 0.9rem; font-style: italic; color: #666;">Marketing Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Classic</h3>
+                <p>Timeless professional style</p>
+            </div>
+            <div class="template-card">
+                <div class="template-preview template-minimal">
+                    <div class="template-content">
+                        <div style="font-size: 1.1rem; font-weight: bold; color: #333;">John Doe</div>
+                            <div style="font-size: 0.85rem; color: #666;">Marketing Manager at Acme Corp</div>
+                    </div>
+                </div>
+                <h3>Minimal</h3>
+                <p>Simple and elegant</p>
+            </div>
+            <div class="template-card">
+                <div class="template-preview template-colorful">
+                    <div class="template-content">
+                        <div style="color: white; text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: bold;">John Doe</div>
+                            <div style="font-size: 0.9rem;">Marketing Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Colorful</h3>
+                <p>Vibrant and eye-catching</p>
+            </div>
+            <div class="template-card">
+                <div class="template-preview template-elegant">
+                    <div class="template-content">
+                        <div style="text-align: center; color: #9b59b6;">
+                            <div style="font-size: 1.2rem; font-weight: bold;">John Doe</div>
+                            <div style="font-size: 0.9rem; font-style: italic;">Marketing Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Elegant</h3>
+                <p>Sophisticated and refined</p>
+            </div>
+            <div class="template-card">
+                <div class="template-preview template-corporate">
+                    <div class="template-content">
+                        <div style="color: white; text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: bold;">John Doe</div>
+                            <div style="font-size: 0.9rem;">Marketing Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Corporate</h3>
+                <p>Professional and formal</p>
+            </div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3>Secure & Private</h3>
-            <p>Your data is protected with Firebase authentication and encryption</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About SignaturePro</h2>
+                <p class="about-intro">We believe that every professional deserves a stunning email signature that represents their brand and personality.</p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4>Our Mission</h4>
+                            <p>To provide the easiest and most powerful email signature generator for professionals worldwide</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4>Our Vision</h4>
+                            <p>Making professional branding accessible to everyone, regardless of design skills or budget</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4>Our Values</h4>
+                            <p>Simplicity, quality, and user satisfaction drive everything we do</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="about-illustration">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🆓</div>
-            <h3>Free to Use</h3>
-            <p>Create unlimited professional signatures at no cost</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="section-header">
+            <h2>Get In Touch</h2>
+            <p>Have questions? We'd love to hear from you</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email Us</h4>
+                        <p>support@signaturepro.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Call Us</h4>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Visit Us</h4>
+                        <p>123 Business Street, Tech City, TC 12345</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <form class="contact-form" onsubmit="handleContactForm(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="contactSubject" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="contactMessage" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
         </div>
     </section>
 
@@ -65,70 +406,100 @@
     <section class="builder-section" id="builderSection" style="display: none;">
         <div class="builder-container">
             <div class="builder-form">
-                <h2>Design Your Signature</h2>
-                
-                <div class="form-group">
-                    <label>Template Style</label>
-                    <select id="template" onchange="updatePreview()">
-                        <option value="modern">Modern</option>
-                        <option value="classic">Classic</option>
-                        <option value="minimal">Minimal</option>
-                    </select>
+                <div class="form-section">
+                    <h3><i class="fas fa-th-large"></i> Template Style</h3>
+                    <div class="template-selector" id="templateSelector"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullName" placeholder="John Doe" onkeyup="updatePreview()">
+                <div class="form-section">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" placeholder="John Doe" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" id="jobTitle" placeholder="Marketing Manager" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" placeholder="Acme Corporation" oninput="updatePreview()">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Job Title</label>
-                    <input type="text" id="jobTitle" placeholder="Marketing Manager" onkeyup="updatePreview()">
+                <div class="form-section">
+                    <h3><i class="fas fa-address-book"></i> Contact Details</h3>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="john@company.com" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="phone" placeholder="+1 (555) 123-4567" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="url" id="website" placeholder="www.company.com" oninput="updatePreview()">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Company Name</label>
-                    <input type="text" id="companyName" placeholder="Acme Corporation" onkeyup="updatePreview()">
+                <div class="form-section">
+                    <h3><i class="fas fa-share-alt"></i> Social Media</h3>
+                    <div class="form-group">
+                        <label><i class="fab fa-linkedin"></i> LinkedIn URL</label>
+                        <input type="url" id="linkedin" placeholder="linkedin.com/in/johndoe" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-twitter"></i> Twitter Handle</label>
+                        <input type="text" id="twitter" placeholder="@johndoe" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-facebook"></i> Facebook URL</label>
+                        <input type="url" id="facebook" placeholder="facebook.com/johndoe" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-instagram"></i> Instagram Handle</label>
+                        <input type="text" id="instagram" placeholder="@johndoe" oninput="updatePreview()">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="john@company.com" onkeyup="updatePreview()">
-                </div>
-
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="tel" id="phone" placeholder="+1 (555) 123-4567" onkeyup="updatePreview()">
-                </div>
-
-                <div class="form-group">
-                    <label>Website</label>
-                    <input type="url" id="website" placeholder="www.company.com" onkeyup="updatePreview()">
-                </div>
-
-                <div class="form-group">
-                    <label>LinkedIn URL</label>
-                    <input type="url" id="linkedin" placeholder="linkedin.com/in/johndoe" onkeyup="updatePreview()">
-                </div>
-
-                <div class="form-group">
-                    <label>Twitter Handle</label>
-                    <input type="text" id="twitter" placeholder="@johndoe" onkeyup="updatePreview()">
-                </div>
-
-                <div class="form-group">
-                    <label>Primary Color</label>
-                    <input type="color" id="primaryColor" value="#667eea" onchange="updatePreview()">
+                <div class="form-section">
+                    <h3><i class="fas fa-paint-brush"></i> Customization</h3>
+                    <div class="form-group">
+                        <label>Primary Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="primaryColor" value="#667eea" oninput="updatePreview()">
+                            <span id="colorValue">#667eea</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Font Size</label>
+                        <select id="fontSize" onchange="updatePreview()">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn-copy" onclick="copySignature()">📋 Copy HTML</button>
-                    <button class="btn-download" onclick="downloadSignature()">💾 Download</button>
+                    <button class="btn-back" onclick="backToHome()">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </button>
+                    <button class="btn-copy" onclick="copySignature()">
+                        <i class="fas fa-copy"></i> Copy HTML
+                    </button>
+                    <button class="btn-download" onclick="downloadSignature()">
+                        <i class="fas fa-download"></i> Download HTML
+                    </button>
+                    <button class="btn-image" onclick="downloadAsImage()">
+                        <i class="fas fa-image"></i> Export as Image
+                    </button>
                 </div>
             </div>
 
             <div class="preview-panel">
-                <h3>Live Preview</h3>
+                <h3><i class="fas fa-eye"></i> Live Preview</h3>
                 <div class="preview-container" id="previewContainer">
                     <div id="signaturePreview"></div>
                 </div>
@@ -136,26 +507,72 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope-open-text"></i> SignaturePro</h3>
+                <p>Create professional email signatures in minutes. Stand out in every email with stunning designs.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#templates">Templates</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Subscribe to get updates and tips</p>
+                <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SignaturePro. All rights reserved. Made with <i class="fas fa-heart"></i> for professionals</p>
+        </div>
+    </footer>
+
     <!-- Login Modal -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
-            <h2>Welcome Back</h2>
+            <div class="modal-header">
+                <i class="fas fa-sign-in-alt"></i>
+                <h2>Welcome Back</h2>
+            </div>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label>Email</label>
+                    <label><i class="fas fa-envelope"></i> Email</label>
                     <input type="email" id="loginEmail" required>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label><i class="fas fa-lock"></i> Password</label>
                     <input type="password" id="loginPassword" required>
                 </div>
-                <button type="submit" class="submit-btn">Login</button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
             </form>
-            <div class="divider">OR</div>
-            <button class="google-btn" onclick="signInWithGoogle()">
-                <span>🔍</span> Continue with Google
-            </button>
             <p class="switch-auth">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign Up</a></p>
         </div>
     </div>
@@ -164,36 +581,104 @@
     <div class="modal" id="signupModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('signupModal')">&times;</button>
-            <h2>Create Account</h2>
+            <div class="modal-header">
+                <i class="fas fa-user-plus"></i>
+                <h2>Create Account</h2>
+            </div>
             <form onsubmit="handleSignup(event)">
                 <div class="form-group">
-                    <label>Full Name</label>
+                    <label><i class="fas fa-user"></i> Full Name</label>
                     <input type="text" id="signupName" required>
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
+                    <label><i class="fas fa-envelope"></i> Email</label>
                     <input type="email" id="signupEmail" required>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label><i class="fas fa-lock"></i> Password</label>
                     <input type="password" id="signupPassword" required minlength="6">
                 </div>
-                <button type="submit" class="submit-btn">Sign Up</button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
             </form>
-            <div class="divider">OR</div>
-            <button class="google-btn" onclick="signInWithGoogle()">
-                <span>🔍</span> Continue with Google
-            </button>
             <p class="switch-auth">Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login</a></p>
         </div>
     </div>
 
+    <!-- Profile Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content profile-settings">
+            <button class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
+            <div class="modal-header">
+                <i class="fas fa-user-cog"></i>
+                <h2>Account Settings</h2>
+            </div>
+            
+            <div class="settings-tabs">
+                <button class="tab-btn active" data-tab="profile" onclick="switchTab('profile')">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+                <button class="tab-btn" data-tab="security" onclick="switchTab('security')">
+                    <i class="fas fa-lock"></i> Security
+                </button>
+            </div>
+            
+            <div id="profileTab" class="tab-content active">
+                <form onsubmit="updateProfile(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="profileName" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="profileEmail" required>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i> Update Profile
+                    </button>
+                </form>
+            </div>
+            
+            <div id="securityTab" class="tab-content">
+                <form onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-key"></i> New Password</label>
+                        <input type="password" id="newPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-key"></i> Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required minlength="6">
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- HTML2Canvas for image export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- Custom JavaScript -->
     <script src="./assets/js/script.js"></script>
